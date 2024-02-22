@@ -1,0 +1,98 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+log:
+  level: debug
+apiEndpoints:
+  api:
+    host: localhost
+    paths: "/ip"
+  seismicData:
+    host: "localhost"
+    paths: "/seismic/*"
+  DaylightAPIData:
+    host: localhost
+    paths: "/daylight/*"
+  ISSlocation:
+    host: localhost
+    paths: "/ISSlocation/*"
+  SpacePeople:
+    host: localhost
+    paths: "/SpacePeople/*"
+serviceEndpoints:
+  httpbin:
+    url: "https://httpbin.org"
+  seismic:
+    url: "https://65ca483b3b05d29307e01640.mockapi.io/api"
+  DaylightAPI:
+    url: "https://65ca483b3b05d29307e01640.mockapi.io/api"
+  ISSlocation:
+    url: "http://api.open-notify.org/iss-now"
+  SpacePeople:
+    url: "http://api.open-notify.org/astros"
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  default:
+    apiEndpoints:
+      - api
+    policies:
+      # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: httpbin
+              changeOrigin: true
+  seismic:
+    apiEndpoints:
+      - seismicData
+    policies:
+      - log:
+          action:
+            message: "${req.method} ${req.originalUrl}"
+      - proxy:
+          - action:
+              serviceEndpoint: seismic
+              changeOrigin: true
+  DaylightAPI:
+    apiEndpoints:
+      - DaylightAPIData
+    policies:
+      - log:
+          action:
+            message: "${req.method} ${req.originalUrl}"
+      - proxy:
+          - action:
+              serviceEndpoint: DaylightAPI
+              changeOrigin: true
+  ISSlocation:
+    apiEndpoints:
+      - ISSlocationData
+    policies:
+      - log:
+          action:
+            message: "${req.method} ${req.originalUrl}"
+      - proxy:
+          - action:
+              serviceEndpoint: ISSlocation
+              changeOrigin: true
+  SpacePeople:
+    apiEndpoints:
+      - SpacePeopleData
+    policies:
+      - log:
+          action:
+            message: "${req.method} ${req.originalUrl}"
+      - proxy:
+          - action:
+              serviceEndpoint: SpacePeople
+              changeOrigin: true
