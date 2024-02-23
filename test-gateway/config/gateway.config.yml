@@ -17,10 +17,10 @@ apiEndpoints:
     paths: "/daylight/*"
   ISSlocation:
     host: localhost
-    paths: "/ISSlocation/*"
+    paths: "/iss-now/*"
   SpacePeople:
     host: localhost
-    paths: "/SpacePeople/*"
+    paths: "/astros/*"
 serviceEndpoints:
   httpbin:
     url: "https://httpbin.org"
@@ -29,9 +29,9 @@ serviceEndpoints:
   DaylightAPI:
     url: "https://65ca483b3b05d29307e01640.mockapi.io/api"
   ISSlocation:
-    url: "http://api.open-notify.org/iss-now"
+    url: "http://api.open-notify.org"
   SpacePeople:
-    url: "http://api.open-notify.org/astros"
+    url: "http://api.open-notify.org"
 policies:
   - basic-auth
   - cors
